@@ -1,0 +1,9 @@
+body {
+  display: flex;
+  /* cursor: url("custom-pointer.png"), pointer; */
+}
+
+#vendor-logo {
+  width: 150px;
+  margin-top: 5px;
+}

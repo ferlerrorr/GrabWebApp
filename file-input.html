@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV File Reader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #fileInput {
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="file" id="fileInput-sku" accept=".csv" />
+    <input type="file" id="fileInput-store" accept=".csv" />
+
+    <script>
+        document.getElementById('fileInput-sku').addEventListener('change', handleFileSelect);
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const csvContent = e.target.result;
+                    displayCSVContent(csvContent);
+                };
+
+                reader.readAsText(file);
+            }
+        }
+        function displayCSVContent(content) {
+            const lines = content.split('\n');
+            const data = [];
+
+            // Process the first line separately
+            if (lines.length > 0) {
+                const firstLineValues = lines[0].split(',').map(column => column.trim());
+
+                // Check if the first value in the first line can be converted to numeric
+                if (!isNaN(parseFloat(firstLineValues[0]))) {
+                } else {
+                    lines.shift();
+                    // Remove the first line (header) if the first value is not numeric
+                }
+            }
+
+            // Process the rest of the lines
+            lines.forEach(line => {
+                const columns = line.split(',').map(column => column.trim());
+                data.push(columns);
+            });
+
+
+            console.log(data);
+        }
+
+
+        document.getElementById('fileInput-store').addEventListener('change', handleFileSelect);
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const csvContent = e.target.result;
+                    displayCSVContent(csvContent);
+                };
+
+                reader.readAsText(file);
+            }
+        }
+        function displayCSVContent(content) {
+            const lines = content.split('\n');
+            const data = [];
+
+            // Process the first line separately
+            if (lines.length > 0) {
+                const firstLineValues = lines[0].split(',').map(column => column.trim());
+
+                // Check if the first value in the first line can be converted to numeric
+                if (!isNaN(parseFloat(firstLineValues[0]))) {
+                } else {
+                    lines.shift();
+                    // Remove the first line (header) if the first value is not numeric
+                }
+            }
+
+            // Process the rest of the lines
+            lines.forEach(line => {
+                const columns = line.split(',').map(column => column.trim());
+                data.push(columns);
+            });
+
+
+            console.log(data);
+        }
+
+    </script>
+</body>
+
+</html>
