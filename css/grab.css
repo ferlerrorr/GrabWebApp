@@ -80,3 +80,9 @@
   overflow: hidden;
   background-color: #66666602;
 }
+
+#GrabStoreTable > thead {
+  /* background-color: #23f7fe27; */
+  /* background-color: #3cb95a; */
+  background-color: #005339;
+}

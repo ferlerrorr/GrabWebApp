@@ -498,6 +498,7 @@ table.dataTable thead .sorting_asc:before,
   box-shadow: inset -1px -1px 10px rgba(0, 0, 0, 0.5),
     inset 5px 5px 10px #ffffff;
   padding-top: 15.2px;
+  background-color: #fcfafa8d;
 }
 
 .add {
