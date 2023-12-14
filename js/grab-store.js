@@ -2,35 +2,64 @@ $(document).ready(function () {
   function a() {
     $("#GrabStoreTable").DataTable({
       ajax: {
-        url: "http://localhost:8802/api/ssd/sftp/all-sku-pack",
+        url: "http://localhost:8802/api/ssd/sftp/grab-stores",
         dataSrc: "",
       },
       columns: [
-        { data: "SKU_Number" },
-        { data: "grab_pack" },
+        { data: "istore" },
+        {
+          data: null,
+          render: function (data, type, row) {
+            // Assuming "grab" is the property name containing the grab value
+            var grabValue = row.grab;
+            var store = row.istore;
+
+            // Set the checkbox value based on the grab value
+            var isChecked = grabValue === 1;
+
+            // Check if grabValue is null or 0, and update isChecked accordingly
+            if (grabValue === null || grabValue === 0) {
+              isChecked = false;
+            }
+
+            // Generate the checkbox HTML
+            return `
+            <div class"toggle-body">
+              <div class="can-toggle">
+                <input id="a-${store}" type="checkbox"  data-store-id="${store}" ${
+              isChecked ? "checked" : ""
+            }>
+                </div>
+              </div>
+            `;
+          },
+        },
         { data: null, render: e },
       ],
-      paging: !0,
-      searching: !0,
+      paging: true,
+      searching: true,
     });
   }
   function e(a, e, t) {
     // console.log(a);
     var n;
     return `
-      <button type="button" class="btn btn-primary" 
-        data-toggle="modal" data-target="#GrabEditSKUModal"
-        data-sku_number="${a.SKU_Number}" data-grab_pack="${a.grab_pack}">Edit
-      </button>
+   
       <button type="button" class="btn btn-danger" 
         data-toggle="modal" data-target="#GrabDeleteSKUConfirmationModal"
-        data-sku_number="${a.SKU_Number}">Delete
+        data-store-id="${a.istore}">Delete
       </button>`;
   }
+
+  //   <button type="button" class="btn btn-primary"
+  //   data-toggle="modal" data-target="#GrabEditSKUModal"
+  //   data-store-id="${a.istore}" data-grab-maintenance="${a.grab}">Edit
+  // </button>
+
   a(), //! // Call the function to initialize the vendor table
     $("#GrabSKUTable tbody").on("click", "button.btn-primary", function () {
-      var a = $(this).data("sku_number"),
-        e = $(this).data("grab_pack");
+      var a = $(this).data("store-id"),
+        e = $(this).data("grab-maintenance");
       $("#GrabEditSKUNumber").val(a),
         $("#GrabEditPiecetoPack").val(e),
         $("#GrabSaveEditSKUButton").val(e);

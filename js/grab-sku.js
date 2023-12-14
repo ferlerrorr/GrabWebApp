@@ -2,7 +2,7 @@ $(document).ready(function () {
   function a() {
     $("#GrabSKUTable").DataTable({
       ajax: {
-        url: "http://localhost:8802/api/ssd/sftp/all-sku-pack",
+        url: "http://localhost:8802/api/ssd/sftp/grab-sku-pack",
         dataSrc: "",
       },
       columns: [

@@ -13,11 +13,18 @@ $("#leftside-navigation .parent > a").click(function (e) {
 }),
   $("#GrabSku").click(function (e) {
     $("#toast-container").removeClass("view-visible").addClass("view-hidden"),
-      $("#sftpGrab").removeClass("view-hidden").addClass("view-visible");
+      $("#sftpGrab").removeClass("view-hidden").addClass("view-visible"),
+      $("#sftpGrabStore").removeClass("view-visible").addClass("view-hidden");
   }),
   $("#ssd-logo").click(function (e) {
     $("#sftpGrab").removeClass("view-visible").addClass("view-hidden"),
-      $("#toast-container").removeClass("view-hidden").addClass("view-visible");
+      $("#toast-container").removeClass("view-hidden").addClass("view-visible"),
+      $("#sftpGrabStore").removeClass("view-visible").addClass("view-hidden");
+  }),
+  $("#GrabStore").click(function (e) {
+    $("#sftpGrab").removeClass("view-visible").addClass("view-hidden"),
+      $("#toast-container").removeClass("view-visible").addClass("view-hidden"),
+      $("#sftpGrabStore").removeClass("view-hidden").addClass("view-visible");
   });
 //   $("#navExport").click(function (e) {
 //     $("#colSetup").removeClass("view-visible").addClass("view-hidden"),
