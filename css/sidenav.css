@@ -300,11 +300,13 @@ ul > li > a {
   -ms-flex-align: center;
   align-items: center;
   -ms-flex-pack: end;
-  justify-content: flex-end;
-  padding: 0.75rem;
+  justify-content: space-between;
+  padding: 0.8rem;
   border-top: 1px solid #dee2e6;
   border-bottom-right-radius: calc(0.3rem - 1px);
   border-bottom-left-radius: calc(0.3rem - 1px);
+  gap: 2px;
+  overflow: hidden;
 }
 .modal-footer > * {
   margin: 0.25rem;

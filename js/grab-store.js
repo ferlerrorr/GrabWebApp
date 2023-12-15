@@ -51,20 +51,15 @@ $(document).ready(function () {
       </button>`;
   }
 
-  //   <button type="button" class="btn btn-primary"
-  //   data-toggle="modal" data-target="#GrabEditSKUModal"
-  //   data-store-id="${a.istore}" data-grab-maintenance="${a.grab}">Edit
-  // </button>
-
   a(), //! // Call the function to initialize the vendor table
-    $("#GrabSKUTable tbody").on("click", "button.btn-primary", function () {
+    $("#GrabStoreTable tbody").on("click", "button.btn-primary", function () {
       var a = $(this).data("store-id"),
         e = $(this).data("grab-maintenance");
       $("#GrabEditSKUNumber").val(a),
         $("#GrabEditPiecetoPack").val(e),
         $("#GrabSaveEditSKUButton").val(e);
     }),
-    $("#GrabSaveEditSKUButton").click(function () {
+    $("#ssds").click(function () {
       var e = $("#GrabEditSKUNumber").val(),
         t = $("#GrabEditPiecetoPack").val(),
         n = $(this).attr("value");
@@ -97,7 +92,7 @@ $(document).ready(function () {
             $("#GrabEditSKUModal").modal("hide");
           });
     }),
-    $("#GrabDeleteSKUConfirmationModal").on("show.bs.modal", function (a) {
+    $("#sdsd").on("show.bs.modal", function (a) {
       var e = $(a.relatedTarget);
       e.data("sku_number");
       var t = e.data("sku_number");
@@ -126,7 +121,7 @@ $(document).ready(function () {
             console.error(a);
           });
     }),
-    $("#GrabAddSKUModalButton").click(function () {
+    $("#sdsds").click(function () {
       var e = $("#GrabAddSKUNumber").val(),
         t = $("#GrabAddPiecetoPack").val();
       let n = {
@@ -138,7 +133,7 @@ $(document).ready(function () {
         processData: !1,
         data: JSON.stringify({ SKU_Number: e, pack: t }),
       };
-      $("#GrabSKUTable").fadeOut(420, function () {
+      $("#GrabStoreTable").fadeOut(420, function () {
         $.fn.DataTable.isDataTable("#GrabSKUTable") &&
           $("#GrabSKUTable").DataTable().destroy(),
           a(),

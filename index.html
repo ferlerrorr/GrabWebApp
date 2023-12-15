@@ -16,8 +16,6 @@
 </head>
 
 <body>
-
-
     <!-- ! partial:Page SideNav html -->
     <link rel="stylesheet" type="text/css" href="css/data-table.css">
     <link rel="stylesheet" type="text/css" href="css/form.css">
@@ -142,8 +140,14 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="GrabAddSKUModalButton">Add</button>
+                    <div class="notif-container">
+                        <p class="addSKUNotif" id="addSKUNotif">
+                        </p>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="GrabAddSKUModalButton">Add</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -202,7 +206,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <!-- Modify the vsetupConfirmDeleteVendor button to include data-vendorid -->
-                    <button type="button" class="btn btn-danger" id="GrabConfirmDeleteVendor"
+                    <button type="button" class="btn btn-danger" id="GrabConfirmDeleteSKU"
                         data-vendorid="">Delete</button>
                 </div>
             </div>

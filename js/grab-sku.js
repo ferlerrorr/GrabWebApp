@@ -24,7 +24,7 @@ $(document).ready(function () {
       </button>
       <button type="button" class="btn btn-danger" 
         data-toggle="modal" data-target="#GrabDeleteSKUConfirmationModal"
-        data-sku_number="${a.SKU_Number}">Delete
+        data-sku-number="${a.SKU_Number}">Delete
       </button>`;
   }
   a(), //! // Call the function to initialize the vendor table
@@ -33,48 +33,56 @@ $(document).ready(function () {
         e = $(this).data("grab_pack");
       $("#GrabEditSKUNumber").val(a),
         $("#GrabEditPiecetoPack").val(e),
-        $("#GrabSaveEditSKUButton").val(e);
+        $("#GrabSaveEditSKUButton").val(a);
     }),
     $("#GrabSaveEditSKUButton").click(function () {
-      var e = $("#GrabEditSKUNumber").val(),
-        t = $("#GrabEditPiecetoPack").val(),
-        n = $(this).attr("value");
+      var e = Number($("#GrabEditSKUNumber").val()),
+        t = Number($("#GrabEditPiecetoPack").val());
+      n = $(this).attr("value");
       let o = {
-        async: !0,
-        crossDomain: !0,
-        url: "http://localhost:8800/api/ssd/asn/vendorid-setup-update/" + n,
+        async: true,
+        crossDomain: true,
+        url: "http://localhost:8802/api/ssd/sftp/grab-update-sku/" + e,
         method: "PUT",
         headers: { Accept: "*/*", "Content-Type": "application/json" },
-        processData: !1,
-        data: JSON.stringify({ v_vname: e, v_vid: t }),
+        processData: false,
+        data: JSON.stringify({ SKU_Number: e, grab_pack: t }),
       };
+
       $("#GrabEditSKUModal").modal("hide");
+
       $("#GrabSKUTable").fadeOut(420, function () {
         $.fn.DataTable.isDataTable("#GrabSKUTable") &&
           $("#GrabSKUTable").DataTable().destroy(),
           a(),
           $(this).fadeIn(480);
-      }),
-        $.ajax(o)
+      });
 
-          .done(function (a) {
-            console.log(a);
-            $("#GrabEditSKUModal").modal("hide");
-          })
-          .fail(function (a, e, t) {
-            console.error(t);
-          })
-          .always(function () {
-            $("#GrabEditSKUModal").modal("hide");
-          });
+      $.ajax(o)
+        .done(function (a) {
+          console.log(a);
+          $("#GrabEditSKUModal").modal("hide");
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+          if (jqXHR.status === 405) {
+            console.error(
+              "Method Not Allowed: PUT method not supported by the server."
+            );
+          } else {
+            console.error(textStatus);
+          }
+        })
+        .always(function () {
+          $("#GrabEditSKUModal").modal("hide");
+        });
     }),
     $("#GrabDeleteSKUConfirmationModal").on("show.bs.modal", function (a) {
       var e = $(a.relatedTarget);
-      e.data("sku_number");
-      var t = e.data("sku_number");
-      $("#GrabConfirmDeleteVendor").val(t);
+      e.data("sku-number");
+      var t = e.data("sku-number");
+      $("#GrabConfirmDeleteSKU").val(t);
     }),
-    $(document).on("click", "#GrabConfirmDeleteVendor", function () {
+    $(document).on("click", "#GrabConfirmDeleteSKU", function () {
       var e = $(this).attr("value");
       $("#GrabDeleteSKUConfirmationModal").modal("hide"),
         $("#GrabSKUTable").fadeOut(420, function () {
@@ -86,7 +94,7 @@ $(document).ready(function () {
         $.ajax({
           async: !0,
           crossDomain: !0,
-          url: "http://localhost:8800/api/ssd/asn/vendorid-setup-delete/" + e,
+          url: "http://localhost:8802/api/ssd/sftp/grab-delete-sku/" + e,
           method: "GET",
           headers: { Accept: "*/*" },
         })
@@ -97,27 +105,50 @@ $(document).ready(function () {
             console.error(a);
           });
     }),
-    $("#GrabAddSKUModalButton").click(function () {
-      var e = $("#GrabAddSKUNumber").val(),
-        t = $("#GrabAddPiecetoPack").val();
-      let n = {
-        async: !0,
-        crossDomain: !0,
-        url: "http://localhost:8800/api/ssd/asn/vendorid-setup-create",
-        method: "POST",
-        headers: { Accept: "*/*", "Content-Type": "application/json" },
-        processData: !1,
-        data: JSON.stringify({ SKU_Number: e, pack: t }),
-      };
-      $("#GrabSKUTable").fadeOut(420, function () {
-        $.fn.DataTable.isDataTable("#GrabSKUTable") &&
-          $("#GrabSKUTable").DataTable().destroy(),
-          a(),
-          $(this).fadeIn(480);
-      }),
-        $.ajax(n).done(function (a) {
-          console.log(a);
-        }),
-        $("#GrabAddSKUModal").modal("hide");
+    $(document).ready(function () {
+      $("#GrabAddSKUModalButton").click(function () {
+        var e = $("#GrabAddSKUNumber").val();
+        var t = $("#GrabAddPiecetoPack").val();
+
+        var isEInteger = /^[0-9]+$/.test(e);
+        var isTInteger = /^[0-9]+$/.test(t);
+
+        let skus = [];
+
+        if (isEInteger && isTInteger) {
+          skus.push({
+            SKU_Number: parseInt(e, 10),
+            grab_pack: parseInt(t, 10),
+          });
+        } else {
+          $("#addSKUNotif").text(
+            "One or both values are not valid integers. Please enter valid integer values."
+          );
+          return;
+        }
+        let result = JSON.stringify(skus, null, 2);
+        $("#GrabAddSKUModal").modal("hide"),
+          $("#GrabSKUTable").fadeOut(420, function () {
+            $.fn.DataTable.isDataTable("#GrabSKUTable") &&
+              $("#GrabSKUTable").DataTable().destroy(),
+              a(),
+              $(this).fadeIn(480);
+          }),
+          $.ajax({
+            type: "POST",
+            url: "http://localhost:8802/api/ssd/sftp/grab-add-sku",
+            contentType: "application/json",
+            data: result,
+            success: function (response) {
+              $("#addSKUNotif").text(response["message"]);
+              console.log(response);
+            },
+            error: function (error) {
+              $("#addSKUNotif").text(response["message"]);
+              console.log(response);
+            },
+          });
+        console.log(result);
+      });
     });
 });
