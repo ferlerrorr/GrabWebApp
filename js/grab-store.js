@@ -24,14 +24,14 @@ $(document).ready(function () {
 
             // Generate the checkbox HTML
             return `
-            <div class"toggle-body">
-              <div class="can-toggle">
-                <input id="a-${store}" type="checkbox"  data-store-id="${store}" ${
+            <div class="toggle-body">
+                <div class="can-toggle" id="${store}">
+                    <input id="${store}" type="checkbox" data-store-id="${store}"  onchange="logCheckboxId(this)" ${
               isChecked ? "checked" : ""
             }>
                 </div>
-              </div>
-            `;
+            </div>
+        `;
           },
         },
         { data: null, render: e },
@@ -46,7 +46,7 @@ $(document).ready(function () {
     return `
    
       <button type="button" class="btn btn-danger" 
-        data-toggle="modal" data-target="#GrabDeleteSKUConfirmationModal"
+        data-toggle="modal" data-target="#GrabDeleteStoreConfirmationModal"
         data-store-id="${a.istore}">Delete
       </button>`;
   }
@@ -72,7 +72,7 @@ $(document).ready(function () {
         processData: !1,
         data: JSON.stringify({ v_vname: e, v_vid: t }),
       };
-      $("#GrabEditSKUModal").modal("hide");
+      $("#GrabEditStoreModal").modal("hide");
       $("#GrabSKUTable").fadeOut(420, function () {
         $.fn.DataTable.isDataTable("#GrabSKUTable") &&
           $("#GrabSKUTable").DataTable().destroy(),
@@ -100,7 +100,7 @@ $(document).ready(function () {
     }),
     $(document).on("click", "#GrabConfirmDeleteVendor", function () {
       var e = $(this).attr("value");
-      $("#GrabDeleteSKUConfirmationModal").modal("hide"),
+      $("#GrabDeleteStoreConfirmationModal").modal("hide"),
         $("#GrabSKUTable").fadeOut(420, function () {
           $.fn.DataTable.isDataTable("#GrabSKUTable") &&
             $("#GrabSKUTable").DataTable().destroy(),
@@ -145,3 +145,51 @@ $(document).ready(function () {
         $("#GrabAddSKUModal").modal("hide");
     });
 });
+
+function logCheckboxId(checkbox) {
+  if ($(checkbox).prop("checked")) {
+    // console.log("Checkbox ID:", $(checkbox).attr("id"), "is checked");
+    e = $(checkbox).attr("id");
+    // $("#GrabStoreTable").fadeOut(420, function () {
+    //   $.fn.DataTable.isDataTable("GrabStoreTable") &&
+    //     $("GrabStoreTable").DataTable().destroy(),
+    //     $(this).fadeIn(480);
+    // }),
+    $.ajax({
+      async: !0,
+      crossDomain: !0,
+      url:
+        "http://localhost:8802/api/ssd/sftp/grab-update-store-maintenance/" + e,
+      method: "GET",
+      headers: { Accept: "*/*" },
+    })
+      .done(function (a) {
+        console.log(a);
+      })
+      .fail(function (a) {
+        console.error(a);
+      });
+  } else {
+    // console.log("Checkbox ID:", $(checkbox).attr("id"), "is Unchecked");
+    e = $(checkbox).attr("id");
+    // $("#GrabStoreTable").fadeOut(420, function () {
+    //   $.fn.DataTable.isDataTable("GrabStoreTable") &&
+    //     $("GrabStoreTable").DataTable().destroy(),
+    //     $(this).fadeIn(480);
+    // }),
+    $.ajax({
+      async: !0,
+      crossDomain: !0,
+      url:
+        "http://localhost:8802/api/ssd/sftp/grab-update-store-maintenance/" + e,
+      method: "GET",
+      headers: { Accept: "*/*" },
+    })
+      .done(function (a) {
+        console.log(a);
+      })
+      .fail(function (a) {
+        console.error(a);
+      });
+  }
+}
