@@ -85,34 +85,31 @@ $(document).ready(function () {
     $("#GrabAddStoreModalButton").click(function () {
       var storeId = parseInt($("#GrabAddStoreId").val(), 10);
 
-      var ajaxOptions = {
-        async: true,
-        crossDomain: true,
-        url: "http://localhost:8802/api/ssd/sftp/create-grab-store",
-        method: "POST",
-        headers: { Accept: "*/*", "Content-Type": "application/json" },
-        processData: false,
-        data: JSON.stringify([storeId]),
-      };
-
-      // data = JSON.stringify([storeId]);
-
-      // console.log(data);
+      if (isNaN(storeId)) {
+        console.log("Store Id must be a number");
+      } else {
+        var ajaxOptions = {
+          async: true,
+          crossDomain: true,
+          url: "http://localhost:8802/api/ssd/sftp/create-grab-store",
+          method: "POST",
+          headers: { Accept: "*/*", "Content-Type": "application/json" },
+          processData: false,
+          data: JSON.stringify([storeId]),
+        };
+        $.ajax(ajaxOptions).done(function (response) {
+          console.log(response);
+        });
+      }
 
       $("#GrabStoreTable").fadeOut(420, function () {
         if ($.fn.DataTable.isDataTable("#GrabStoreTable")) {
           $("#GrabStoreTable").DataTable().destroy();
         }
-        // Call function 'a()' - assuming it's defined somewhere
         a();
         $(this).fadeIn(480);
+        $("#GrabAddStoreModal").modal("hide");
       });
-
-      $.ajax(ajaxOptions).done(function (response) {
-        console.log(response);
-      });
-
-      $("#GrabAddStoreModal").modal("hide");
     });
 });
 //!------------------->
