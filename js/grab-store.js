@@ -56,7 +56,6 @@ $(document).ready(function () {
       var e = $(a.relatedTarget);
       t = e.data("store-id");
       $("#GrabConfirmDeleteStore").val(t);
-      console.log(t);
     }),
     $(document).on("click", "#GrabConfirmDeleteStore", function () {
       var e = $(this).attr("value");
@@ -70,7 +69,9 @@ $(document).ready(function () {
         $.ajax({
           async: !0,
           crossDomain: !0,
-          url: "http://localhost:8800/api/ssd/asn/vendorid-setup-delete/" + e,
+          url:
+            "http://localhost:8802/api/ssd/sftp/grab-delete-store-maintenance/" +
+            e,
           method: "GET",
           headers: { Accept: "*/*" },
         })
@@ -81,31 +82,40 @@ $(document).ready(function () {
             console.error(a);
           });
     }),
-    $("#sdsds").click(function () {
-      var e = $("#GrabAddSKUNumber").val(),
-        t = $("#GrabAddPiecetoPack").val();
-      let n = {
-        async: !0,
-        crossDomain: !0,
-        url: "http://localhost:8800/api/ssd/asn/vendorid-setup-create",
+    $("#GrabAddStoreModalButton").click(function () {
+      var storeId = parseInt($("#GrabAddStoreId").val(), 10);
+
+      var ajaxOptions = {
+        async: true,
+        crossDomain: true,
+        url: "http://localhost:8802/api/ssd/sftp/create-grab-store",
         method: "POST",
         headers: { Accept: "*/*", "Content-Type": "application/json" },
-        processData: !1,
-        data: JSON.stringify({ SKU_Number: e, pack: t }),
+        processData: false,
+        data: JSON.stringify([storeId]),
       };
+
+      // data = JSON.stringify([storeId]);
+
+      // console.log(data);
+
       $("#GrabStoreTable").fadeOut(420, function () {
-        $.fn.DataTable.isDataTable("#GrabSKUTable") &&
-          $("#GrabSKUTable").DataTable().destroy(),
-          a(),
-          $(this).fadeIn(480);
-      }),
-        $.ajax(n).done(function (a) {
-          console.log(a);
-        }),
-        $("#GrabAddSKUModal").modal("hide");
+        if ($.fn.DataTable.isDataTable("#GrabStoreTable")) {
+          $("#GrabStoreTable").DataTable().destroy();
+        }
+        // Call function 'a()' - assuming it's defined somewhere
+        a();
+        $(this).fadeIn(480);
+      });
+
+      $.ajax(ajaxOptions).done(function (response) {
+        console.log(response);
+      });
+
+      $("#GrabAddStoreModal").modal("hide");
     });
 });
-
+//!------------------->
 function logCheckboxId(checkbox) {
   if ($(checkbox).prop("checked")) {
     e = $(checkbox).attr("id");
