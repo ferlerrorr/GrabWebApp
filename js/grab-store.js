@@ -51,59 +51,19 @@ $(document).ready(function () {
       </button>`;
   }
 
-  a(), //! // Call the function to initialize the vendor table
-    $("#GrabStoreTable tbody").on("click", "button.btn-primary", function () {
-      var a = $(this).data("store-id"),
-        e = $(this).data("grab-maintenance");
-      $("#GrabEditSKUNumber").val(a),
-        $("#GrabEditPiecetoPack").val(e),
-        $("#GrabSaveEditSKUButton").val(e);
-    }),
-    $("#ssds").click(function () {
-      var e = $("#GrabEditSKUNumber").val(),
-        t = $("#GrabEditPiecetoPack").val(),
-        n = $(this).attr("value");
-      let o = {
-        async: !0,
-        crossDomain: !0,
-        url: "http://localhost:8800/api/ssd/asn/vendorid-setup-update/" + n,
-        method: "PUT",
-        headers: { Accept: "*/*", "Content-Type": "application/json" },
-        processData: !1,
-        data: JSON.stringify({ v_vname: e, v_vid: t }),
-      };
-      $("#GrabEditStoreModal").modal("hide");
-      $("#GrabSKUTable").fadeOut(420, function () {
-        $.fn.DataTable.isDataTable("#GrabSKUTable") &&
-          $("#GrabSKUTable").DataTable().destroy(),
-          a(),
-          $(this).fadeIn(480);
-      }),
-        $.ajax(o)
-
-          .done(function (a) {
-            console.log(a);
-            $("#GrabEditSKUModal").modal("hide");
-          })
-          .fail(function (a, e, t) {
-            console.error(t);
-          })
-          .always(function () {
-            $("#GrabEditSKUModal").modal("hide");
-          });
-    }),
-    $("#sdsd").on("show.bs.modal", function (a) {
+  a(), //! // Call the function to initialize the store table
+    $("#GrabDeleteStoreConfirmationModal").on("show.bs.modal", function (a) {
       var e = $(a.relatedTarget);
-      e.data("sku_number");
-      var t = e.data("sku_number");
-      $("#GrabConfirmDeleteVendor").val(t);
+      t = e.data("store-id");
+      $("#GrabConfirmDeleteStore").val(t);
+      console.log(t);
     }),
-    $(document).on("click", "#GrabConfirmDeleteVendor", function () {
+    $(document).on("click", "#GrabConfirmDeleteStore", function () {
       var e = $(this).attr("value");
       $("#GrabDeleteStoreConfirmationModal").modal("hide"),
-        $("#GrabSKUTable").fadeOut(420, function () {
-          $.fn.DataTable.isDataTable("#GrabSKUTable") &&
-            $("#GrabSKUTable").DataTable().destroy(),
+        $("#GrabStoreTable").fadeOut(420, function () {
+          $.fn.DataTable.isDataTable("#GrabStoreTable") &&
+            $("#GrabStoreTable").DataTable().destroy(),
             a(),
             $(this).fadeIn(480);
         }),
@@ -148,13 +108,7 @@ $(document).ready(function () {
 
 function logCheckboxId(checkbox) {
   if ($(checkbox).prop("checked")) {
-    // console.log("Checkbox ID:", $(checkbox).attr("id"), "is checked");
     e = $(checkbox).attr("id");
-    // $("#GrabStoreTable").fadeOut(420, function () {
-    //   $.fn.DataTable.isDataTable("GrabStoreTable") &&
-    //     $("GrabStoreTable").DataTable().destroy(),
-    //     $(this).fadeIn(480);
-    // }),
     $.ajax({
       async: !0,
       crossDomain: !0,
@@ -170,13 +124,7 @@ function logCheckboxId(checkbox) {
         console.error(a);
       });
   } else {
-    // console.log("Checkbox ID:", $(checkbox).attr("id"), "is Unchecked");
     e = $(checkbox).attr("id");
-    // $("#GrabStoreTable").fadeOut(420, function () {
-    //   $.fn.DataTable.isDataTable("GrabStoreTable") &&
-    //     $("GrabStoreTable").DataTable().destroy(),
-    //     $(this).fadeIn(480);
-    // }),
     $.ajax({
       async: !0,
       crossDomain: !0,

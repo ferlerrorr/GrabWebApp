@@ -27,7 +27,7 @@ $(document).ready(function () {
         data-sku-number="${a.SKU_Number}">Delete
       </button>`;
   }
-  a(), //! // Call the function to initialize the vendor table
+  a(), //! // Call the function to initialize the sku table
     $("#GrabSKUTable tbody").on("click", "button.btn-primary", function () {
       var a = $(this).data("sku_number"),
         e = $(this).data("grab_pack");
