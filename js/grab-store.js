@@ -41,8 +41,6 @@ $(document).ready(function () {
     });
   }
   function e(a, e, t) {
-    // console.log(a);
-    var n;
     return `
    
       <button type="button" class="btn btn-danger" 
@@ -115,7 +113,7 @@ $(document).ready(function () {
 //!------------------->
 function logCheckboxId(checkbox) {
   if ($(checkbox).prop("checked")) {
-    e = $(checkbox).attr("id");
+    let e = $(checkbox).attr("id");
     $.ajax({
       async: !0,
       crossDomain: !0,

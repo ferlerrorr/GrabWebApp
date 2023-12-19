@@ -6,14 +6,13 @@
   > #GrabSKUTable
   > tbody
   > .even {
-  /* background-color: #23f7fe27; */
-  /* background-color: #3cb95a; */
   background-color: #3cb95a36;
 }
 
+#GrabStoreTable > tbody > .even {
+  background-color: #3cb95a36;
+}
 #GrabSKUTable > thead {
-  /* background-color: #23f7fe27; */
-  /* background-color: #3cb95a; */
   background-color: #005339;
 }
 
@@ -41,6 +40,10 @@
 
 #GrabSKUTable_wrapper {
   width: 92%;
+  padding-bottom: 1.75%;
+}
+#GrabStoreTable_wrapper {
+  padding-bottom: 1.75%;
 }
 
 .Grab-table td button.btn-primary:hover {
@@ -59,6 +62,7 @@
 
 #GrabSKUTable_wrapper {
   animation: fadeInOut 1.1s ease;
+  padding-bottom: 1.75%;
 }
 
 .Grab-nav > a > span > img {

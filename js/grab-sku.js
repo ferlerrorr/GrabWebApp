@@ -37,8 +37,8 @@ $(document).ready(function () {
     }),
     $("#GrabSaveEditSKUButton").click(function () {
       var e = Number($("#GrabEditSKUNumber").val()),
-        t = Number($("#GrabEditPiecetoPack").val());
-      n = $(this).attr("value");
+        t = Number($("#GrabEditPiecetoPack").val()),
+        n = $(this).attr("value");
       let o = {
         async: true,
         crossDomain: true,
